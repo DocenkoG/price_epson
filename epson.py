@@ -347,9 +347,9 @@ def is_file_fresh(fileName, qty_days):
         log.error('Не найден файл  '+ fileName)
         return False
 
-    if price_datetime+qty_seconds < time.time() :
-        file_age = round((time.time()-price_datetime)/24/60/60)
-        log.error('Файл "'+fileName+'" устарел!  Допустимый период '+ str(qty_days)+' дней, а ему ' + str(file_age) )
+    file_age = round((time.time() - price_datetime) / 24 / 60 / 60)
+    if file_age > qty_days :
+        log.error('Файл "' + fileName + '" устарел! Допустимый период ' + str(qty_days)+' дней, а ему ' + str(file_age))
         return False
     else:
         return True
@@ -362,11 +362,10 @@ def make_loger():
     log = logging.getLogger('logFile')
 
 
-
-def main( dealerName):
+def main(dealerName):
     """ Обработка прайсов выполняется согласно файлов конфигурации.
     Для этого в текущей папке должны быть файлы конфигурации, описывающие
-    свойства файла и правила обработки. По одному конфигу на каждый 
+    свойства файла и правила обработки. По одному конфигу на каждый
     прайс или раздел прайса со своими правилами обработки
     """
     make_loger()
